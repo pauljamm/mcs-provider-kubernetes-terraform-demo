@@ -27,7 +27,9 @@ resource "mcs_kubernetes_cluster" "cluster" {
   floating_ip_enabled = true
   availability_zone   = var.kubernetes_availability_zone
   labels = {
-    "prometheus_monitoring" = "false"
+    "prometheus_monitoring"   = var.prometheus_enabled
+    "ingress_controller"      = var.nginx_ingress_enabled ? "nginx" : ""
+    "docker_registry_enabled" = var.docker_registry_enabled
   }
 }
 
@@ -36,6 +38,7 @@ resource "mcs_kubernetes_node_group" "kubernetes_ng" {
   cluster_id         = mcs_kubernetes_cluster.cluster.id
   name               = each.key
   node_count         = each.value.node_count
+  availability_zones = [each.value.availability_zone]
   flavor_id          = data.openstack_compute_flavor_v2.kubernetes_node_flavor[each.key].id
 }
 

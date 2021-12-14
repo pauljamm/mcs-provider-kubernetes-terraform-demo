@@ -4,7 +4,7 @@ variable "kubernetes_cluster_name" {
 
 variable "kubernetes_version" {
   type    = string
-  default = "1.20.4"
+  default = "1.21.4"
 }
 
 variable "kubernetes_master_flavor" {
@@ -25,14 +25,31 @@ variable "kubernetes_availability_zone" {
 variable "kubernetes_node_groups" {
 
   type = map(object({
-    node_count         = number
-    node_flavor        = string
+    node_count        = number
+    node_flavor       = string
+    availability_zone = string
   }))
 
   default = {
     "default_ng" = {
-      "node_count"         = 1
-      "node_flavor"        = "Basic-1-2-20"
+      "node_count"        = 1
+      "node_flavor"       = "Basic-1-2-20"
+      "availability_zone" = "MS1"
     }
   }
+}
+
+variable "prometheus_enabled" {
+  type    = bool
+  default = false
+}
+
+variable "docker_registry_enabled" {
+  type    = bool
+  default = false
+}
+
+variable "nginx_ingress_enabled" {
+  type    = bool
+  default = true
 }
