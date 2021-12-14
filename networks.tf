@@ -9,7 +9,7 @@ resource "openstack_networking_network_v2" "kubernetes_network" {
 resource "openstack_networking_subnet_v2" "kubernetes_subnet" {
   name       = "kubernetes_subnet"
   network_id = openstack_networking_network_v2.kubernetes_network.id
-  cidr       = "10.100.0.0/16"
+  cidr       = "10.50.0.0/16"
   ip_version = 4
 }
 
